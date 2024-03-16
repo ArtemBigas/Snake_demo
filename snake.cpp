@@ -63,8 +63,12 @@ void Snake::doDrawing() {
         for (int z = 0; z < dots; z++) {
             if (z == 0) {
                 qp.drawImage(x[z], y[z], head);
+                qp.setPen(Qt::black);//цвет линии
+                qp.drawRect(x[z], y[z], dot.width(), dot.height());//рисуем линию(координаты ячейки, ширина и высота её)
             } else {
                 qp.drawImage(x[z], y[z], dot);
+                qp.setPen(Qt::black);
+                qp.drawRect(x[z], y[z], dot.width(), dot.height());
             }
         }
 
