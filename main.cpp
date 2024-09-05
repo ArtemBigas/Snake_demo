@@ -1,4 +1,4 @@
-#include <QApplication>
+
 #include "snake.h"
 
 int main(int argc, char *argv[]) {

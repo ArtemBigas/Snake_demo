@@ -1,17 +1,27 @@
 #include <QPainter>
 #include <QTime>
+
 #include "snake.h"
 
 Snake::Snake(QWidget *parent) : QWidget(parent) {
 
+    // Получаем текущее разрешение экрана
+    QScreen *screen = QGuiApplication::primaryScreen();
+    QRect screenGeometry = screen->geometry();
+    B_WIDTH = screenGeometry.width()/2;   // Ширина экрана
+    B_HEIGHT = screenGeometry.height()/2; // Высота экрана
+    DOT_SIZE=screenGeometry.height()/72;//вроде оптимальный размер
     setStyleSheet("background-color:black;");
     leftDirection = false;
     rightDirection = true;
     upDirection = false;
     downDirection = false;
     inGame = true;
-
-    resize(B_WIDTH, B_HEIGHT);
+    resize(B_WIDTH, B_HEIGHT);//размер игрового поля-половина экрана
+    // Инициализируем векторы x и y с размером ALL_DOTS
+    ALL_DOTS = (B_WIDTH*B_HEIGHT)/(DOT_SIZE*DOT_SIZE);
+    x.resize(ALL_DOTS);
+    y.resize(ALL_DOTS);
     loadImages();
     initGame();
 }
@@ -185,7 +195,7 @@ void Snake::locateApple() {//прописать чтобы яблоко не п�
 
     QTime time = QTime::currentTime();
     qsrand((uint) time.msec());
-
+    RAND_POS = B_WIDTH / DOT_SIZE;  // Количество клеток по ширине
     int r = qrand() % RAND_POS;
     apple_x = (r * DOT_SIZE);
 

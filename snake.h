@@ -3,7 +3,8 @@
 
 #include <QWidget>
 #include <QKeyEvent>
-
+#include <QApplication>
+#include <QScreen>//расчет разрешения экрана
 class Snake : public QWidget {
 
 public:
@@ -20,12 +21,12 @@ private:
     QImage apple;
 
 //размер игрового поля
-    static const int B_WIDTH = 600;
-    static const int B_HEIGHT = 600;
+     int B_WIDTH;
+     int B_HEIGHT;
 
-    static const int DOT_SIZE = 15;//размер яблока и тела змеи
-    static const int ALL_DOTS = (B_WIDTH*B_HEIGHT)/(DOT_SIZE*DOT_SIZE);//максимальное количество возможных точек на доске размером 10х10 пикселей((300*300)/(10*10))
-    static const int RAND_POS = 29;//используется для вычисления случайной позиции яблока
+    int DOT_SIZE;//размер яблока и тела змеи
+    int ALL_DOTS;//максимальное количество возможных точек на доске размером 10х10 пикселей((300*300)/(10*10))
+     int RAND_POS;//используется для вычисления случайной позиции яблока
     static const int DELAY = 140;//скорость игры
 
     int timerId;
@@ -33,8 +34,8 @@ private:
     int apple_x;
     int apple_y;
 //координаты (x;y) всех «частей» тела змеи
-    int x[ALL_DOTS];
-    int y[ALL_DOTS];
+    std::vector <int> x;
+    std::vector <int> y;
 
     bool leftDirection;
     bool rightDirection;
