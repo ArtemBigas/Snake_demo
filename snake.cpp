@@ -32,9 +32,9 @@ void Snake::loadImages() {//тело змеи
 }
 
 void Snake::initGame() {
-     //создание змеи
+    //создание змеи
     dots = 3;
-//Змею рисуем с хвоста
+    //Змею рисуем с хвоста
     for (int z = dots; z >= 0; z--) {
         int i=0;
         x[z] = DOT_SIZE*i;
@@ -59,18 +59,36 @@ void Snake::doDrawing() {
     QPainter qp(this);
 
     if (inGame) {
+        // Масштабируем объекты в зависимости от текущего размера окна
+        float scaleX = (float) width() / B_WIDTH;
+        float scaleY = (float) height() / B_HEIGHT;
 
-        qp.drawImage(apple_x, apple_y, apple);
+        // Масштабируем яблоко
+        int apple_x_scaled = apple_x * scaleX;
+        int apple_y_scaled = apple_y * scaleY;
+        int dot_size_scaled = DOT_SIZE * scaleX;
 
+        //qp.drawImage(apple_x, apple_y, apple);
+        qp.drawImage(apple_x_scaled, apple_y_scaled, apple.scaled(dot_size_scaled, dot_size_scaled));
+
+        // Масштабируем змейку
         for (int z = 0; z < dots; z++) {
+
+            int x_scaled = x[z] * scaleX;
+            int y_scaled = y[z] * scaleY;
+
             if (z == 0) {
-                qp.drawImage(x[z], y[z], head);
+                //qp.drawImage(x[z], y[z], head);
+                qp.drawImage(x_scaled, y_scaled, head.scaled(dot_size_scaled, dot_size_scaled));
                 qp.setPen(Qt::black);//цвет линии
-                qp.drawRect(x[z], y[z], dot.width(), dot.height());//рисуем линию(координаты ячейки, ширина и высота её)
+                //qp.drawRect(x[z], y[z], dot.width(), dot.height());//рисуем линию(координаты ячейки, ширина и высота её)
+                qp.drawRect(x_scaled, y_scaled, dot_size_scaled, dot_size_scaled);
             } else {
-                qp.drawImage(x[z], y[z], dot);
+                //qp.drawImage(x[z], y[z], dot);
+                qp.drawImage(x_scaled, y_scaled, dot.scaled(dot_size_scaled, dot_size_scaled));
                 qp.setPen(Qt::black);
-                qp.drawRect(x[z], y[z], dot.width(), dot.height());
+                //qp.drawRect(x[z], y[z], dot.width(), dot.height());
+                qp.drawRect(x_scaled, y_scaled, dot_size_scaled, dot_size_scaled);
             }
         }
 
@@ -137,25 +155,25 @@ void Snake::checkCollision() {//столкновения
             inGame = false;
         }
     }
-//если змея столкнется с стенкой,в комментариях вариант без стен,но происходит смещение координат и змей перестает ловить яблоки
+//если змея столкнется с стенкой,в комментариях вариант без стен
     if (y[0] >= B_HEIGHT) {
-        inGame = false;
-        //y[0] = 1;
+        //inGame = false;
+        y[0] = DOT_SIZE;
     }
 
     if (y[0] < 0) {
-        inGame = false;
-        //y[0]= B_HEIGHT-1;
+        //inGame = false;
+        y[0]= B_HEIGHT-DOT_SIZE;
     }
 
     if (x[0] >= B_WIDTH) {
-        inGame = false;
-        //x[0] = 1;
+        //inGame = false;
+        x[0] = DOT_SIZE;
     }
 
     if (x[0] < 0) {
-        inGame = false;
-        //x[0]= B_WIDTH-1;
+        //inGame = false;
+        x[0]= B_WIDTH-DOT_SIZE;
     }
 
     if(!inGame) {//если inGame==false, таймер заканчивается

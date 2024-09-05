@@ -23,10 +23,10 @@ private:
     static const int B_WIDTH = 600;
     static const int B_HEIGHT = 600;
 
-    static const int DOT_SIZE = 20;//размер яблока и тела змеи
-    static const int ALL_DOTS = 900;//максимальное количество возможных точек на доске размером 10х10 пикселей((300*300)/(10*10))
+    static const int DOT_SIZE = 15;//размер яблока и тела змеи
+    static const int ALL_DOTS = (B_WIDTH*B_HEIGHT)/(DOT_SIZE*DOT_SIZE);//максимальное количество возможных точек на доске размером 10х10 пикселей((300*300)/(10*10))
     static const int RAND_POS = 29;//используется для вычисления случайной позиции яблока
-    static const int DELAY = 300;//скорость игры
+    static const int DELAY = 140;//скорость игры
 
     int timerId;
     int dots;
