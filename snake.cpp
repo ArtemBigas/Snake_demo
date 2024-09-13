@@ -19,7 +19,7 @@ Snake::Snake(QWidget *parent) : QWidget(parent) {
     inGame = true;
     resize(B_WIDTH, B_HEIGHT);//размер игрового поля-половина экрана
     // Инициализируем векторы x и y с размером ALL_DOTS
-    ALL_DOTS = (B_WIDTH*B_HEIGHT)/(DOT_SIZE*DOT_SIZE);
+    ALL_DOTS = (B_WIDTH*B_HEIGHT)/(DOT_SIZE*DOT_SIZE)/2;
     x.resize(ALL_DOTS);
     y.resize(ALL_DOTS);
     loadImages();
@@ -193,15 +193,26 @@ void Snake::checkCollision() {//столкновения
 
 void Snake::locateApple() {//прописать чтобы яблоко не появлялось на месте змеи
 
-    QTime time = QTime::currentTime();
-    qsrand((uint) time.msec());
-    RAND_POS = B_WIDTH / DOT_SIZE;  // Количество клеток по ширине
-    int r = qrand() % RAND_POS;
-    apple_x = (r * DOT_SIZE);
+ QTime time = QTime::currentTime();
+        qsrand((uint) time.msec());
 
-    r = qrand() % RAND_POS;
-    apple_y = (r * DOT_SIZE);
-}
+        int RAND_POS_X = B_WIDTH / DOT_SIZE;
+        int RAND_POS_Y = B_HEIGHT / DOT_SIZE;
+
+        int r_x = qrand() % RAND_POS_X;
+        int r_y = qrand() % RAND_POS_Y;
+
+        apple_x = r_x * DOT_SIZE;
+        apple_y = r_y * DOT_SIZE;
+
+        // Дополнительная проверка, чтобы яблоко точно оставалось внутри поля
+        if (apple_x >= B_WIDTH) {
+            apple_x = B_WIDTH - DOT_SIZE;
+        }
+        if (apple_y >= B_HEIGHT) {
+            apple_y = B_HEIGHT - DOT_SIZE;
+        }
+    }
 
 void Snake::timerEvent(QTimerEvent *e) {//игровой цикл
 
